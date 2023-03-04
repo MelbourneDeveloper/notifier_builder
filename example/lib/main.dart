@@ -48,7 +48,7 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => counterNotifier.value = counterNotifier.value + 1,
+            onPressed: () => counterNotifier.value++,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
