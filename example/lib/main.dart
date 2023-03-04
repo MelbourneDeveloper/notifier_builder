@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => NotifierBuilder(
         notifier: CounterNotifier.new,
-        builder: (c, w, n) => Scaffold(
+        builder: (context, child, counterNotifier) => Scaffold(
           appBar: AppBar(
             title: Text(title),
           ),
@@ -52,14 +52,14 @@ class MyHomePage extends StatelessWidget {
                   'You have pushed the button this many times:',
                 ),
                 Text(
-                  '${n.counter}',
+                  '${counterNotifier.counter}',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ],
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: n.increment,
+            onPressed: counterNotifier.increment,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
