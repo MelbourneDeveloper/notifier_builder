@@ -1,6 +1,6 @@
 # NotifierBuilder
 
-![example workflow](https://github.com/MelbourneDeveloper/notifier_builder/actions/workflows/build_and_test.yml/badge.svg)
+[![build_and_test](https://github.com/MelbourneDeveloper/notifier_builder/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/MelbourneDeveloper/notifier_builder/actions/workflows/build_and_test.yml)
 
 <a href="https://codecov.io/gh/melbournedeveloper/notifier_builder"><img src="https://codecov.io/gh/melbournedeveloper/notifier_builder/branch/main/graph/badge.svg" alt="codecov"></a>
 
