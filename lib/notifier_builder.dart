@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 ///👷🏽 A Builder for any Listenable notifier/controller
@@ -35,32 +36,33 @@ class NotifierBuilder<T extends Listenable> extends StatefulWidget {
 class NotifierBuilderState<T extends Listenable>
     extends State<NotifierBuilder<T>> {
   ///The notifier that was created by the [NotifierBuilder.notifier] function
-  T? notifier;
+  late final T notifier;
 
   @override
   void initState() {
     super.initState();
-    notifier ??= widget.notifier();
-    notifier?.addListener(_handleChange);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    notifier ??= widget.notifier();
+    notifier = widget.notifier();
+    notifier.addListener(_handleChange);
   }
 
   @override
   void dispose() {
-    notifier?.removeListener(_handleChange);
+    notifier.removeListener(_handleChange);
     super.dispose();
   }
 
-  void _handleChange() {
-    setState(() {});
-  }
+  void _handleChange() => setState(() {});
 
   @override
-  Widget build(BuildContext context) =>
-      widget.builder(context, widget.child, notifier!);
+  Widget build(BuildContext context) => Builder(
+        builder: (context) => widget.builder(context, widget.child, notifier),
+      );
+
+  // coverage:ignore-start
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<T>('notifier', notifier));
+  }
+  // coverage:ignore-end
 }
