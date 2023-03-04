@@ -54,8 +54,9 @@ class NotifierBuilderState<T extends Listenable>
   void _handleChange() => setState(() {});
 
   @override
-  Widget build(BuildContext context) =>
-      widget.builder(context, widget.child, notifier);
+  Widget build(BuildContext context) => Builder(
+        builder: (context) => widget.builder(context, widget.child, notifier),
+      );
 
   // coverage:ignore-start
   @override
