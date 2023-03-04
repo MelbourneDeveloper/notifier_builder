@@ -40,15 +40,6 @@ class NotifierBuilderState<T extends Listenable>
   }
 
   @override
-  void didUpdateWidget(NotifierBuilder<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.notifier != oldWidget.notifier) {
-      controller?.removeListener(_handleChange);
-      controller?.addListener(_handleChange);
-    }
-  }
-
-  @override
   void dispose() {
     controller?.removeListener(_handleChange);
     super.dispose();
