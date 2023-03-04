@@ -27,8 +27,6 @@ To use the NotifierBuilder class, create a new instance of the class and pass in
 import 'package:flutter/material.dart';
 import 'package:notifier_builder/notifier_builder.dart';
 
-ValueNotifier<int> _counter = ValueNotifier<int>(0);
-
 void main() {
   runApp(const MyApp());
 }
@@ -43,7 +41,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: NotifierBuilder<ValueNotifier<int>>(
-          notifier: () => _counter,
+          notifier: () => ValueNotifier<int>(0),
           builder: (context, child, notifier) => Scaffold(
             body: Center(
               child: Text(
