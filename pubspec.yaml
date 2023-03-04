@@ -1,7 +1,7 @@
 name: notifier_builder
-description: A new Flutter package project.
+description: A Flutter Builder for Notifiers
 version: 0.1.0-beta
-homepage:
+repository: https://github.com/MelbourneDeveloper/notifier_builder
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
