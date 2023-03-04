@@ -48,14 +48,17 @@ class _NotifierFutureBuilderState<T extends Listenable>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      widget.builder(context, widget.child, _snapshot);
+  Widget build(BuildContext context) => Builder(
+        builder: (context) => widget.builder(context, widget.child, _snapshot),
+      );
 
   @override
   void dispose() {
     _unsubscribe();
     super.dispose();
   }
+
+  void _handleChange() => setState(() {});
 
   void _subscribe() {
     final callbackIdentity = Object();
@@ -66,6 +69,7 @@ class _NotifierFutureBuilderState<T extends Listenable>
         if (_activeCallbackIdentity == callbackIdentity) {
           setState(() {
             _snapshot = AsyncSnapshot<T>.withData(ConnectionState.done, data);
+            _snapshot.data!.addListener(_handleChange);
           });
         }
       },
@@ -90,5 +94,8 @@ class _NotifierFutureBuilderState<T extends Listenable>
 
   void _unsubscribe() {
     _activeCallbackIdentity = null;
+    if (_snapshot.connectionState == ConnectionState.done) {
+      _snapshot.data!.removeListener(_handleChange);
+    }
   }
 }
