@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+//According to ChatGPT: there are no obvious potential bugs with
+//NotifierFutureBuilder
+
 class NotifierFutureBuilder<T extends Listenable> extends StatefulWidget {
   const NotifierFutureBuilder({
     required this.future,
     required this.builder,
-    required this.child,
+    this.child,
     super.key,
   });
 
