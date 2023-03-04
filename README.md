@@ -1,5 +1,9 @@
 # NotifierBuilder
 
+![example workflow](https://github.com/MelbourneDeveloper/notifier_builder/actions/workflows/build_and_test.yml/badge.svg)
+
+<a href="https://codecov.io/gh/melbournedeveloper/notifier_builder"><img src="https://codecov.io/gh/melbournedeveloper/notifier_builder/branch/main/graph/badge.svg" alt="codecov"></a>
+
 A Flutter library that provides an alternative to AnimatedBuilder for building widgets that depend on any Listenable notifier/controller
 
 ## Introduction
