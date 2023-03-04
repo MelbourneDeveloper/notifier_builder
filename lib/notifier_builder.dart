@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class NotifierBuilder<T extends Listenable> extends StatefulWidget {
   const NotifierBuilder({
-    required this.controller,
+    required this.notifier,
     required this.builder,
     super.key,
     this.child,
   });
 
-  final T Function() controller;
+  final T Function() notifier;
 
   final Widget Function(
     BuildContext context,
@@ -29,20 +29,20 @@ class NotifierBuilderState<T extends Listenable>
   @override
   void initState() {
     super.initState();
-    controller ??= widget.controller();
+    controller ??= widget.notifier();
     controller?.addListener(_handleChange);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    controller ??= widget.controller();
+    controller ??= widget.notifier();
   }
 
   @override
   void didUpdateWidget(NotifierBuilder<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
+    if (widget.notifier != oldWidget.notifier) {
       controller?.removeListener(_handleChange);
       controller?.addListener(_handleChange);
     }
