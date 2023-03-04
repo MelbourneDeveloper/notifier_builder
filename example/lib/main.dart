@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notifier_builder/notifier_builder.dart';
 
-class CounterNotifier extends ChangeNotifier {
-  int _counter = 0;
-
-  int get counter => _counter;
-
-  void increment() {
-    _counter++;
-    notifyListeners();
-  }
-}
-
 void main() {
   runApp(const MyApp());
 }
@@ -39,7 +28,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => NotifierBuilder(
-        notifier: CounterNotifier.new,
+        notifier: () => ValueNotifier<int>(0),
         builder: (context, child, counterNotifier) => Scaffold(
           appBar: AppBar(
             title: Text(title),
@@ -52,14 +41,14 @@ class MyHomePage extends StatelessWidget {
                   'You have pushed the button this many times:',
                 ),
                 Text(
-                  '${counterNotifier.counter}',
+                  '${counterNotifier.value}',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ],
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: counterNotifier.increment,
+            onPressed: () => counterNotifier.value = counterNotifier.value + 1,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
