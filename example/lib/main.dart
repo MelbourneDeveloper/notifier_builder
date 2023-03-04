@@ -20,25 +20,26 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      );
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({
+    required this.title,
+    super.key,
+  });
 
   final String title;
 
   @override
   Widget build(BuildContext context) => NotifierBuilder(
-        notifier: () => CounterNotifier(),
+        notifier: CounterNotifier.new,
         builder: (c, w, n) => Scaffold(
           appBar: AppBar(
             title: Text(title),

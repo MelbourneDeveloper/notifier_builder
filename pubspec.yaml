@@ -1,6 +1,6 @@
 name: notifier_builder
-description: A Flutter Builder for Notifiers
-version: 0.1.0-beta
+description: A Flutter library that provides an alternative to AnimatedBuilder for building widgets that depend on any Listenable notifier/controller
+version: 0.2.0-beta
 repository: https://github.com/MelbourneDeveloper/notifier_builder
 
 environment:
