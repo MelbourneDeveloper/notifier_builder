@@ -11,6 +11,7 @@ class NotifierFutureBuilder<T extends Listenable> extends StatefulWidget {
     super.key,
   });
 
+  ///Set this to a fixed function. The widget will only call this once
   final Future<T> Function() future;
 
   final Widget Function(
@@ -36,18 +37,6 @@ class _NotifierFutureBuilderState<T extends Listenable>
     super.initState();
     _snapshot = AsyncSnapshot<T>.nothing();
     _subscribe();
-  }
-
-  @override
-  void didUpdateWidget(NotifierFutureBuilder<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.future != widget.future) {
-      if (_activeCallbackIdentity != null) {
-        _unsubscribe();
-        _snapshot = _snapshot.inState(ConnectionState.none);
-      }
-      _subscribe();
-    }
   }
 
   @override
