@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notifier_builder/notifier_future_builder.dart';
 
+//ignore: avoid_relative_lib_imports
+import '../example/lib/main_async.dart';
+
 void main() {
   testWidgets('NotifierFutureBuilder updates UI when future resolves',
       (tester) async {
@@ -157,6 +160,37 @@ void main() {
 
     // Verify that Text widget with value 1 is shown after notifier is changed
     await tester.pumpAndSettle();
+    expect(find.text('1'), findsOneWidget);
+  });
+
+  testWidgets('MyHomePage shows CircularProgressIndicator', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: MyHomePage(title: 'test'),
+      ),
+    );
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('MyHomePage shows incremented value', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: MyHomePage(title: 'test'),
+      ),
+    );
+
+    await tester.pump(
+      const Duration(seconds: 3),
+    ); // wait for Future<ValueNotifier<int>>
+
+    expect(find.text('0'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
+
     expect(find.text('1'), findsOneWidget);
   });
 }
