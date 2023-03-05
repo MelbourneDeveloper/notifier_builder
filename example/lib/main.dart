@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notifier_builder/notifier_future_builder.dart';
+import 'package:notifier_builder/notifier_builder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,39 +27,31 @@ class MyHomePage extends StatelessWidget {
   final String title;
 
   @override
-  Widget build(BuildContext context) => NotifierFutureBuilder(
-        future: getValueNotifier,
-        builder: (context, child, notifierSnapshot) => Scaffold(
+  Widget build(BuildContext context) => NotifierBuilder(
+        notifier: () => ValueNotifier<int>(0),
+        builder: (context, child, counterNotifier) => Scaffold(
           appBar: AppBar(
             title: Text(title),
           ),
           body: Center(
-            child: notifierSnapshot.connectionState == ConnectionState.done
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        'You have pushed the button this many times:',
-                      ),
-                      Text(
-                        '${notifierSnapshot.data!.value}',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                    ],
-                  )
-                : const CircularProgressIndicator.adaptive(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '${counterNotifier.value}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => notifierSnapshot.data?.value++,
+            onPressed: () => counterNotifier.value++,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
         ),
       );
 }
-
-Future<ValueNotifier<int>> getValueNotifier() =>
-    Future<ValueNotifier<int>>.delayed(
-      const Duration(seconds: 3),
-      () => ValueNotifier<int>(0),
-    );
