@@ -64,4 +64,99 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsNothing);
     expect(find.text('Error: Oops'), findsOneWidget);
   });
+
+  testWidgets('NotifierFutureBuilder updates UI when future returns null',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: NotifierFutureBuilder<ValueNotifier<String?>>(
+          future: () async => ValueNotifier<String?>(null),
+          builder: (context, child, snapshot) =>
+              snapshot.connectionState == ConnectionState.done
+                  ? Text(
+                      snapshot.data?.value == null
+                          ? 'Nothing'
+                          : snapshot.data!.value!,
+                    )
+                  : const CircularProgressIndicator(),
+        ),
+      ),
+    );
+
+    // Verify that CircularProgressIndicator is shown initially
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('Nothing'), findsNothing);
+
+    // Wait for future to resolve
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    // Verify that Text widget with value null is shown after future resolves
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('Nothing'), findsOneWidget);
+  });
+
+  testWidgets(
+      'NotifierFutureBuilder updates UI when future takes a while to resolve',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: NotifierFutureBuilder<ValueNotifier<int>>(
+          future: () async => Future.delayed(
+            const Duration(seconds: 2),
+            () => ValueNotifier(42),
+          ),
+          builder: (context, child, snapshot) =>
+              snapshot.connectionState == ConnectionState.done
+                  ? Text('${snapshot.data!.value}')
+                  : const CircularProgressIndicator(),
+        ),
+      ),
+    );
+
+    // Verify that CircularProgressIndicator is shown initially
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('42'), findsNothing);
+
+    // Wait for future to resolve
+    await tester.pumpAndSettle(const Duration(seconds: 3));
+
+    // Verify that Text widget with value 42 is shown after future resolves
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('42'), findsOneWidget);
+  });
+
+  testWidgets('NotifierFutureBuilder updates UI when the notifier is changed',
+      (tester) async {
+    final notifier = ValueNotifier<int>(0);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: NotifierFutureBuilder<ValueNotifier<int>>(
+          future: () async => notifier,
+          builder: (context, child, snapshot) =>
+              snapshot.connectionState == ConnectionState.done
+                  ? Text('${snapshot.data!.value}')
+                  : const CircularProgressIndicator(),
+        ),
+      ),
+    );
+
+    // Verify that CircularProgressIndicator is shown initially
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('0'), findsNothing);
+
+    // Wait for future to resolve
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    // Verify that Text widget with value 0 is shown after future resolves
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('0'), findsOneWidget);
+
+    // Increment the value of the notifier
+    notifier.value = 1;
+
+    // Verify that Text widget with value 1 is shown after notifier is changed
+    await tester.pumpAndSettle();
+    expect(find.text('1'), findsOneWidget);
+  });
 }
