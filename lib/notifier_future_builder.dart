@@ -97,7 +97,8 @@ class _NotifierFutureBuilderState<T extends Listenable>
 
   void _unsubscribe() {
     _activeCallbackIdentity = null;
-    if (_snapshot.connectionState == ConnectionState.done) {
+    if (_snapshot.connectionState == ConnectionState.done &&
+        _snapshot.data != null) {
       _snapshot.data!.removeListener(_handleChange);
     }
   }
