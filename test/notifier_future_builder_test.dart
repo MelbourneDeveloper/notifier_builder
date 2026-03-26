@@ -10,8 +10,8 @@ void main() {
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: NotifierFutureBuilder<ValueNotifier<int>>(
-          future: () async => ValueNotifier(42),
+        home: ListenableFutureBuilder<ValueNotifier<int>>(
+          listenable: () async => ValueNotifier(42),
           builder: (context, child, snapshot) =>
               snapshot.connectionState == ConnectionState.done
                   ? Text('${snapshot.data!.value}')
@@ -36,8 +36,8 @@ void main() {
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: NotifierFutureBuilder<ValueNotifier<int>>(
-          future: () async => Future<ValueNotifier<int>>.delayed(
+        home: ListenableFutureBuilder<ValueNotifier<int>>(
+          listenable: () async => Future<ValueNotifier<int>>.delayed(
             const Duration(milliseconds: 500),
             () => throw Exception('Oops'),
           ),
@@ -72,8 +72,8 @@ void main() {
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: NotifierFutureBuilder<ValueNotifier<String?>>(
-          future: () async => ValueNotifier<String?>(null),
+        home: ListenableFutureBuilder<ValueNotifier<String?>>(
+          listenable: () async => ValueNotifier<String?>(null),
           builder: (context, child, snapshot) =>
               snapshot.connectionState == ConnectionState.done
                   ? Text(
@@ -103,8 +103,8 @@ void main() {
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: NotifierFutureBuilder<ValueNotifier<int>>(
-          future: () async => Future.delayed(
+        home: ListenableFutureBuilder<ValueNotifier<int>>(
+          listenable: () async => Future.delayed(
             const Duration(seconds: 2),
             () => ValueNotifier(42),
           ),
@@ -134,8 +134,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: NotifierFutureBuilder<ValueNotifier<int>>(
-          future: () async => notifier,
+        home: ListenableFutureBuilder<ValueNotifier<int>>(
+          listenable: () async => notifier,
           builder: (context, child, snapshot) =>
               snapshot.connectionState == ConnectionState.done
                   ? Text('${snapshot.data!.value}')

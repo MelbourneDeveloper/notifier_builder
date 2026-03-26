@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 //According to ChatGPT: there are no obvious potential bugs with
 //NotifierFutureBuilder
 
-class NotifierFutureBuilder<T extends Listenable> extends StatefulWidget {
-  const NotifierFutureBuilder({
-    required this.future,
+class ListenableFutureBuilder<T extends Listenable> extends StatefulWidget {
+  const ListenableFutureBuilder({
+    required this.listenable,
     required this.builder,
     this.child,
     super.key,
   });
 
   ///Set this to a fixed function. The widget will only call this once
-  final Future<T> Function() future;
+  final Future<T> Function() listenable;
 
   final Widget Function(
     BuildContext context,
@@ -23,12 +23,12 @@ class NotifierFutureBuilder<T extends Listenable> extends StatefulWidget {
   final Widget? child;
 
   @override
-  State<NotifierFutureBuilder<T>> createState() =>
-      _NotifierFutureBuilderState<T>();
+  State<ListenableFutureBuilder<T>> createState() =>
+      _ListenableFutureBuilderState<T>();
 }
 
-class _NotifierFutureBuilderState<T extends Listenable>
-    extends State<NotifierFutureBuilder<T>> {
+class _ListenableFutureBuilderState<T extends Listenable>
+    extends State<ListenableFutureBuilder<T>> {
   Object? _activeCallbackIdentity;
   late AsyncSnapshot<T> _snapshot;
 
@@ -56,7 +56,7 @@ class _NotifierFutureBuilderState<T extends Listenable>
     final callbackIdentity = Object();
     _activeCallbackIdentity = callbackIdentity;
     // ignore: discarded_futures
-    widget.future().then<void>(
+    widget.listenable().then<void>(
       (data) {
         if (_activeCallbackIdentity == callbackIdentity) {
           setState(() {

@@ -27,8 +27,8 @@ class MyHomePage extends StatelessWidget {
   final String title;
 
   @override
-  Widget build(BuildContext context) => NotifierFutureBuilder(
-        future: getValueNotifier,
+  Widget build(BuildContext context) => ListenableFutureBuilder(
+        listenable: getValueNotifier,
         builder: (context, child, notifierSnapshot) => Scaffold(
           appBar: AppBar(
             title: Text(title),
